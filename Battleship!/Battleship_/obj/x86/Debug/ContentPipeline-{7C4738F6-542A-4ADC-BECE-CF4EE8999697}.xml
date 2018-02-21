@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>unknown.png</Source>
+      <Name>unknown</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\bin\x86\Debug\Content\unknown.xnb</Output>
+      <Time>2018-02-21T10:49:03.0902455-06:00</Time>
+    </Item>
+    <Item>
+      <Source>hitOverlay.png</Source>
+      <Name>hitOverlay</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\bin\x86\Debug\Content\hitOverlay.xnb</Output>
+      <Time>2018-02-21T16:13:32.0102944-06:00</Time>
+    </Item>
+    <Item>
+      <Source>missOverlay.png</Source>
+      <Name>missOverlay</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\bin\x86\Debug\Content\missOverlay.xnb</Output>
+      <Time>2018-02-21T16:16:25.3992117-06:00</Time>
+    </Item>
+    <Item>
+      <Source>shipHitOverlay.png</Source>
+      <Name>shipHitOverlay</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\bin\x86\Debug\Content\shipHitOverlay.xnb</Output>
+      <Time>2018-02-21T16:11:22.3858803-06:00</Time>
+    </Item>
+    <Item>
+      <Source>shipOverlay.png</Source>
+      <Name>shipOverlay</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\bin\x86\Debug\Content\shipOverlay.xnb</Output>
+      <Time>2018-02-21T16:10:09.0496858-06:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <ContentProjectGUID>{7C4738F6-542A-4ADC-BECE-CF4EE8999697}</ContentProjectGUID>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>Reach</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2011-09-01T16:22:30-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2016-07-16T14:24:37.1345925-05:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>
