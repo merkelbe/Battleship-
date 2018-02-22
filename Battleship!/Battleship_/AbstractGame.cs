@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Battleship_
 {
@@ -17,7 +18,9 @@ namespace Battleship_
         internal int[,] Board; // -1 mean missed shot, 0 means unknown space, 1 means shot that hit
         internal int[,] ShipPlacement; // 0 means no ship and 1 means ship
 
-        bool GameOver { get { return allShips.All(x => x.Sunk); } }
+        internal bool GameOver { get { return allShips.All(x => x.Sunk); } }
+        internal int NumberOfGuesses;
+
 
         internal AbstractGame(int _boardWidth, int _boardHeight, List<Ship> _allShips)
         {
@@ -26,17 +29,29 @@ namespace Battleship_
 
             allShips = new List<Ship>(_allShips);
 
-            ResetGame();
+            NewGame();
         }
-        
+
         internal void ResetGame()
         {
             Board = m.Get2DArrayWithDefaultValues<int>(Width, Height, 0);
+            NumberOfGuesses = 0;
+            foreach(Ship ship in allShips)
+            {
+                ship.Reset();
+            }
+        }
+        
+        internal void NewGame()
+        {
+            Board = m.Get2DArrayWithDefaultValues<int>(Width, Height, 0);
+            NumberOfGuesses = 0;
+
             ShipPlacement = m.Get2DArrayWithDefaultValues<int>(Width, Height, 0);
             
             foreach(Ship ship in allShips)
             {
-                ship.Reset();
+                ship.ClearShipSpots();
 
                 // NOTE: The user can set up an impossible situation here if the board size is too small or the ship sizes are too large.
                 placeShip(ship);
@@ -81,7 +96,7 @@ namespace Battleship_
                             int x = randomStartingX + xOffset;
                             int y = randomStartingY + yOffset;
                             ShipPlacement[y, x] = 1;
-                            _ship.AddSpot(new ShipSpot(x, y));
+                            _ship.AddShipSpot(new ShipSpot(x, y));
                         }
                     }
 
@@ -90,13 +105,15 @@ namespace Battleship_
             }
         }
 
-        internal void GuessSpot(int _x, int _y, out List<Ship> _destroyedShips)
+        internal void GuessSpot(int _x, int _y)
         {
-            _destroyedShips = new List<Ship>();
+            List<Ship> destroyedShips = new List<Ship>();
 
             // If this spot hasn't been guessed yet
             if (Board[_y,_x] == 0)
             {
+                ++NumberOfGuesses;
+             
                 // If a ship is there.
                 if(ShipPlacement[_y,_x] > 0)
                 {
@@ -108,7 +125,7 @@ namespace Battleship_
                         // Registers sunken ship on this shot
                         if(!alreadySunk && ship.Sunk)
                         {
-                            _destroyedShips.Add(ship);
+                            destroyedShips.Add(ship);
                         }
                     }
                 }
@@ -128,7 +145,13 @@ namespace Battleship_
         internal int Width;
         internal int Height;
 
-        internal bool Sunk;
+        internal bool Sunk
+        {
+            get
+            {
+                return shipSpots.Count > 0 && shipSpots.All(x => x.Hit);
+            }
+        }
 
         List<ShipSpot> shipSpots;
 
@@ -138,16 +161,23 @@ namespace Battleship_
             Width = _width;
             Height = _height;
 
-            Sunk = false;
             shipSpots = new List<ShipSpot>();
         }
 
         internal void Reset()
         {
+            foreach(ShipSpot shipSpot in shipSpots)
+            {
+                shipSpot.Hit = false;
+            }
+        }
+
+        internal void ClearShipSpots()
+        {
             shipSpots = new List<ShipSpot>();
         }
 
-        internal void AddSpot(ShipSpot _spot)
+        internal void AddShipSpot(ShipSpot _spot)
         {
             if (!shipSpots.Contains(_spot))
             {
@@ -159,16 +189,11 @@ namespace Battleship_
         {
             if (!Sunk)
             {
-                Sunk = true;
                 foreach (ShipSpot spot in shipSpots)
                 {
                     if (spot.X == _x && spot.Y == _y)
                     {
                         spot.Hit = true;
-                    }
-                    if (!spot.Hit)
-                    {
-                        Sunk = false;
                     }
                 }
             }

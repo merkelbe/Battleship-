@@ -3,3 +3,4 @@ Content\hitOverlay.xnb
 Content\missOverlay.xnb
 Content\shipHitOverlay.xnb
 Content\shipOverlay.xnb
+Content\Arial.xnb

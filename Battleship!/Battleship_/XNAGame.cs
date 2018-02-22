@@ -14,17 +14,18 @@ namespace Battleship_
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class XNAGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         MouseState mouseState;
         MouseFilter mouseFilter;
+        List<ClickInfo> currentClickInfo;
 
         KeyboardState keyboardState;
         KeyFilter keyboardFilter;
-        List<ClickInfo> currentClickInfo;
+        List<Keys> pressedKeys;
 
         int WINDOW_WIDTH = 1200;
         int WINDOW_HEIGHT = 700;
@@ -33,8 +34,14 @@ namespace Battleship_
         VisualGame visualGame;
         VisualGameAssets assets;
 
+        SpriteFont spriteFont;
 
-        public Game1()
+        const int updateTimeInMilliseconds = 16;
+        int cumulativeElapsedTime;
+
+        Serializer serializer = new Serializer();
+
+        public XNAGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -42,10 +49,13 @@ namespace Battleship_
             graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
             graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
 
-            keyboardFilter = new KeyFilter();
             mouseFilter = new MouseFilter();
-
             currentClickInfo = new List<ClickInfo>();
+
+            keyboardFilter = new KeyFilter();
+            pressedKeys = new List<Keys>();
+
+            cumulativeElapsedTime = 0;
         }
 
         /// <summary>
@@ -59,6 +69,7 @@ namespace Battleship_
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            IsMouseVisible = true;
 
             Ship destroyer = new Ship("Destroyer", 2, 1);
             Ship submarine = new Ship("Submarine", 3, 1);
@@ -68,10 +79,11 @@ namespace Battleship_
 
             List<Ship> allShips = new List<Ship>() { carrier, battleship, cruiser, submarine, destroyer };
 
-            AbstractGame abstractGame = new AbstractGame(10, 10, allShips);
-            Rectangle areaToDrawTo = new Rectangle(300, 50, 850, 600);
+            abstractGame = new AbstractGame(10, 10, allShips);
+            Rectangle areaToDrawTo = new Rectangle(300, 50, 600, 600);
 
             visualGame = new VisualGame(abstractGame, areaToDrawTo, assets);
+            
         }
 
         /// <summary>
@@ -90,6 +102,8 @@ namespace Battleship_
             assets.HitOverlay = new Sprite(Content, "hitOverlay");
             assets.ShipOverlay = new Sprite(Content, "shipOverlay");
             assets.ShipHitOverlay = new Sprite(Content, "shipHitOverlay");
+
+            spriteFont = Content.Load<SpriteFont>("Arial");
         }
 
         /// <summary>
@@ -108,11 +122,60 @@ namespace Battleship_
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            cumulativeElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
 
-            // TODO: Add your update logic here
+            // NOTE: Could get overflow exception here if update is called less frequently than updateTimeInMilliseconds
+            if (cumulativeElapsedTime > updateTimeInMilliseconds)
+            {
+                cumulativeElapsedTime -= updateTimeInMilliseconds;
+                
+                // Allows the game to exit
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                    this.Exit();
+
+                mouseState = Mouse.GetState();
+                mouseFilter.Update(mouseState, ref currentClickInfo);
+                if (currentClickInfo.Count > 0)
+                {
+                    visualGame.RegisterClick(currentClickInfo[0]); // Registers one click at a time.  currentClickInfo is like a queue.
+                    currentClickInfo.RemoveAt(0);
+                }
+
+                keyboardState = Keyboard.GetState();
+                pressedKeys = keyboardFilter.GetPressedKeys(keyboardState);
+                foreach(Keys key in pressedKeys)
+                {
+                    switch (key)
+                    {
+                        case Keys.R:
+                            {
+                                abstractGame.ResetGame();
+                                break;
+                            }
+                        case Keys.N:
+                            {
+                                abstractGame.NewGame();
+                                break;
+                            }
+                        case Keys.C:
+                            {
+                                visualGame.ShowShips = !visualGame.ShowShips;
+                                break;
+                            }
+                        case Keys.S:
+                            {
+                                if (abstractGame.GameOver)
+                                {
+                                    serializer.WriteBattleshipGuessesToTextFile(abstractGame);
+                                }
+                                break;
+                            }
+
+                    }
+                }
+
+
+            }
 
             base.Update(gameTime);
         }
@@ -128,6 +191,22 @@ namespace Battleship_
             spriteBatch.Begin();
 
             visualGame.Draw(spriteBatch);
+
+            Color textColor = Color.White;
+            
+            spriteBatch.DrawString(spriteFont, "Controls:", new Vector2(20, 20), textColor);
+            spriteBatch.DrawString(spriteFont, "C - Cheat (show/hide ships)", new Vector2(20, 60), textColor);
+            spriteBatch.DrawString(spriteFont, "N - New puzzle", new Vector2(20, 100), textColor);
+            spriteBatch.DrawString(spriteFont, "R - Reset puzzle", new Vector2(20, 140), textColor);
+            spriteBatch.DrawString(spriteFont, "S - Save moves", new Vector2(20, 180), textColor);
+            spriteBatch.DrawString(spriteFont, "Number of Guesses: " + abstractGame.NumberOfGuesses, new Vector2(20, 220), textColor);
+            if (abstractGame.GameOver)
+            {
+                spriteBatch.DrawString(spriteFont, "Game over!", new Vector2(20, 260), textColor);
+            }
+
+            spriteBatch.DrawString(spriteFont, "Mouse X: " + mouseState.X, new Vector2(20, 300), textColor);
+            spriteBatch.DrawString(spriteFont, "Mouse Y: " + mouseState.Y, new Vector2(20, 320), textColor);
 
             spriteBatch.End();
 

@@ -32,7 +32,44 @@ namespace Battleship_
             ShipOverlay = _visualGameAssets.ShipOverlay;
             ShipHitOverlay = _visualGameAssets.ShipHitOverlay;
 
-            ShowShips = true;
+            ShowShips = false;
+        }
+
+        internal void RegisterClick(ClickInfo _clickInfo)
+        {
+            // These x,y coordinates are wrt game window.  They'll be used to figure out x,y coordinates for the battleship grid.
+            // Similarly, the areaToDrawTo's width / height are wrt pixels of game window, while abstractGame's width / height are wrt # squares in grid.
+            int endX = _clickInfo.EndingCoordinates.X;
+            int endY = _clickInfo.EndingCoordinates.Y;
+            
+            int squareWidth = areaToDrawTo.Width / abstractGame.Width;
+            int squareHeight = areaToDrawTo.Height / abstractGame.Height;
+
+            int left = areaToDrawTo.X;
+            int right = left + squareWidth * abstractGame.Width;
+
+            int top = areaToDrawTo.Y;
+            int bottom = top + squareHeight * abstractGame.Height;
+
+            // If click is inside battleship window
+            if(endX > left && endX < right && endY > top && endY < bottom)
+            {
+                // Figure out which square contains the click
+                int x = 0;
+                while(left + squareWidth * (x+1) < endX)
+                {
+                    ++x;
+                }
+
+                int y = 0;
+                while(top + squareHeight * (y+1) < endY)
+                {
+                    ++y;
+                }
+                abstractGame.GuessSpot(x, y);
+            }
+
+
         }
 
 

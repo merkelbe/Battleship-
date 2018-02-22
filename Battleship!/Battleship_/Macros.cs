@@ -20,6 +20,16 @@ namespace Battleship_
             return result;
         }
 
+        internal static T[] GetRowFrom2DArray<T>(T[,] _array, int _row)
+        {
+            T[] row = new T[_array.GetLength(1)];
+            for(int col = 0; col < _array.GetLength(1); ++col)
+            {
+                row[col] = _array[_row, col];
+            }
+            return row;
+        }
+
         internal static Random Random = new Random();
     }
 }

@@ -19,3 +19,4 @@ C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\bin\x8
 C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\bin\x86\Debug\Content\missOverlay.xnb
 C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\bin\x86\Debug\Content\shipHitOverlay.xnb
 C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\bin\x86\Debug\Content\shipOverlay.xnb
+C:\Users\Bluth\Desktop\Temporary\Derp\Battleship!\Battleship!\Battleship_\bin\x86\Debug\Content\Arial.xnb

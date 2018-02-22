@@ -10,7 +10,7 @@ namespace Battleship_
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (XNAGame game = new XNAGame())
             {
                 game.Run();
             }
