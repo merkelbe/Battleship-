@@ -104,9 +104,10 @@ namespace Battleship_
                 }
             }
         }
-
-        internal void GuessSpot(int _x, int _y)
+        
+        internal GuessResult GuessSpot(int _x, int _y)
         {
+            // Currently not doing anything with destroyed ships.  Can delete in final game if not used.  Here if needed in the future otherwise.
             List<Ship> destroyedShips = new List<Ship>();
 
             // If this spot hasn't been guessed yet
@@ -128,13 +129,31 @@ namespace Battleship_
                             destroyedShips.Add(ship);
                         }
                     }
+                    return new GuessResult(true, destroyedShips.Count > 0);
                 }
                 else
                 {
                     // Register miss
                     Board[_y, _x] = -1;
+                    return new GuessResult(false, false);
                 }
             }
+
+            // This spot has already been guess.  Giving back a dummy result (no hit, no ships destoryed).
+            // TODO: May want to throw exception here instead?
+            return new GuessResult(false, false);
+        }
+    }
+
+    internal class GuessResult
+    {
+        internal bool Hit { get; private set; }
+        internal bool ShipDestroyed { get; private set; }
+
+        internal GuessResult(bool _hit, bool _shipDestroyed)
+        {
+            Hit = _hit;
+            ShipDestroyed = _shipDestroyed;
         }
     }
 

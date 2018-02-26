@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractGame.cs" />
+    <Compile Include="GameStatsGenerator.cs" />
     <Compile Include="KeyFilter.cs" />
     <Compile Include="Macros.cs" />
     <Compile Include="MouseFilter.cs" />

@@ -30,6 +30,16 @@ namespace Battleship_
             return row;
         }
 
+        internal static T GetRandomObject<T>(List<T> _objects)
+        {
+            return _objects[m.Random.Next(_objects.Count)];
+        }
+
+        internal static T GetRandomObject<T>(T[] _objects)
+        {
+            return _objects[m.Random.Next(_objects.Length)];
+        }
+        
         internal static Random Random = new Random();
     }
 }
